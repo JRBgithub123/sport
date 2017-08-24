@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+       html, body{
+            width: 100%;
+            height: 100%;
+        }
+        #ball{
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: blueviolet;
+            left: 0;
+            top: 0;
+            border-radius: 50%;
+
+        }
+    </style>
+    <script>
+        window.onload =function () {
+            var ball = document.getElementById("ball");
+            var speedX = 10;
+            var speedY = 20;
+            setInterval(function () {
+                    //offsetLeft 距离父元素 左间距
+
+                //y = 2+x;
+
+                //offsetLeft 值是数值， 不是字符串xx px
+                    ball.style.left = ball.offsetLeft + speedX +"px";
+                    ball.style.top = ball.offsetTop  +speedY +"px";
+
+                //边界处理
+                ball.offsetLeft;//x坐标
+                //offsetWidth 可视区域的宽度
+                var viewWidth = document.body.offsetWidth||document.documentElement.offsetWidth;
+                
+                //右边界
+                if(ball.offsetLeft > viewWidth -ball.offsetWidth)
+                {
+                    ball.style.left = viewWidth -ball.offsetWidth +"px";
+                   speedX*=-1;
+                }
+                //左边界
+                if(ball.offsetLeft<0){
+                    speedX*=-1;
+                }
+
+                //上边界
+                if(ball.offsetTop < 0){
+                    speedY*=-1;
+                }
+
+                var viewHeight = document.body.offsetHeight||document.documentElement.offsetHeight;
+                //下边界
+                if(ball.offsetTop > viewHeight - ball.offsetHeight){
+                    speedY*=-1;
+                }
+
+            },20)
+        }
+    </script>
+</head>
+<body>
+
+<div id="ball">
+
+</div>
+</body>
+</html>

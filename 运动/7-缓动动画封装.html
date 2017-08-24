@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: red;
+            top: 100px;
+            left: 0px;
+        }
+
+    </style>
+    <script src="js/tool.js"></script>
+    <script>
+        window.onload = function () {
+            var btn = $("btn");
+            var ball = $("ball");
+            var target = 800;//去 1000那个位置
+            btn.onclick = function () {
+                    animate(ball,target);
+
+            }
+        }
+
+        //封装缓动动画
+        function animate(element,target) {
+            //结束上一次的定时器，防止 多次产生定时器
+            clearInterval(element.timer);
+            element.timer = setInterval(function () {
+                //速度 或者 步长   剩余路程除以一个固定的数 10
+                var step = (target - element.offsetLeft) / 15;
+                step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                element.style.left = element.offsetLeft + step + "px";
+                if(target == element.offsetLeft){//结束条件 结束定时器
+                    clearInterval(element.timer);
+                }
+            },10);
+        }
+
+
+    </script>
+</head>
+<body>
+<input id="btn" type="button" value="1000">
+<div id="ball"></div>
+</body>
+</html>

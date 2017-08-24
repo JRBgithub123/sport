@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            border: 0;
+        }
+
+        .all{
+            position: relative;
+            width: 500px;
+            height: 200px;
+            border: 3px solid blue;
+            overflow: hidden;
+            margin: 100px auto;
+        }
+        img{
+            width: 500px;
+            height: 200px;
+        }
+
+      ul{
+            position: absolute;
+            width: 3000px;
+            left: 0px;
+            top: 0px;
+        }
+        ul li{
+            width: 500px;
+            height: 200px;
+            float: left;
+        }
+        .all ol{
+            position: absolute;
+            right: 10px;
+            bottom: 10px;
+            text-align: center;
+        }
+        .all ol li{
+            float: left;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 1px solid #cccccc;
+            background: #fff;
+            cursor: pointer;
+        }
+        .all ol  li.current{
+            background: yellow;
+        }
+
+
+    </style>
+    <script src="js/animate.js"></script>
+    <script src="js/tool.js"></script>
+    <script>
+        window.onload =function () {
+            var ul = $("ul");//要移动的元素
+            //复制第一张图片 添加到ul的末尾
+            var ulList = ul.children;
+            var firstCloneLi = ulList[0].cloneNode(true);
+            ul.appendChild(firstCloneLi);
+
+            var all = $("all");
+            var ol = all.getElementsByTagName("ol")[0];
+            var olList = ol.getElementsByTagName("li");
+        //鼠标经过轮播图的时候 让轮播停止
+            all.onmouseover = function () {
+                clearInterval(timer);
+            }
+            all.onmouseout = function () {
+                //鼠标离开的时候 让定时器继续运行
+                timer = setInterval(autoplay,2000);
+            }
+
+             //鼠标放在小圆点上 放在了第几个小圆点，就让轮播图到哪个位置
+            for (var i=0;i< olList.length;i++){
+
+                olList[i].index = i;//小圆点记录下标
+                olList[i].onmouseover =function () {
+                    //1.让当前的小圆点 显示黄色背景
+
+
+                    for (var j=0;j<olList.length; j++){
+                        olList[j].className = "";
+                    }
+                    this.className = "current";
+
+                    //2.轮播图到鼠标指向的位置
+                    uniformAnimate(ul,-500*this.index);
+                    //处理 鼠标经过 ollist【this.index】
+                    //key 控制图片  == this。index
+                    // square 控制小圆点  square = this。index
+                    //key = this.index;
+                    //square = this.index;
+
+                   key = square = this.index;
+                   if(key == 4){
+                        square = -1;
+                    }
+                }
+
+            }
+
+
+            var key =0;//记录播放的张数 播放第几张
+            var square = 0;//记录小圆点的显示
+            //每次让 ul left  1  -500  2.-1000 3.-1500
+            //每隔2秒自动播放
+            var timer = setInterval(autoplay,2000);
+            function autoplay() {
+                key++;
+                if(key == 6){//显示其实是第一张，下一次显示第二张
+                    key = 1;
+                    ul.style.left = "0px";//偷偷的把ul 移动到原始位置
+                }
+                //无线循环的轮播 得在ul最后添加一张图片（复制第一张的过来）
+                //每次轮播的到  复制的那一张 的时候 应该偷偷的把ul的位置调到初始的位置
+                //left -key*500; 1  -500  2.-1000  3.-1500
+                var left = -key*500;//ui的目标坐标
+                uniformAnimate(ul,left);
+                //处理小圆点
+                square++;
+                //定时器第一次执行，显示第二个点
+
+                //首先设置所有 ol里的li classname都为空
+                for (var i=0;i<olList.length;i++){
+                    olList[i].className = "";
+                }
+                //当前显示的小圆点
+                olList[square].className="current";
+                console.log("square"+square);
+
+                if (square ==4){
+                    square = -1;
+                }
+
+
+
+            }
+        }
+
+        
+    </script>
+</head>
+<body>
+
+<div id="all" class="all">
+        <ul id="ul">
+            <li><img src="images/1.jpg"></li>
+            <li><img src="images/2.jpg"></li>
+            <li><img src="images/3.jpg"></li>
+            <li><img src="images/4.jpg"></li>
+            <li><img src="images/5.jpg"></li>
+        </ul>
+
+    <ol>
+        <li class="current">1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+        <li>5</li>
+    </ol>
+
+</div>
+
+</body>
+</html>

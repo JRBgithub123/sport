@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: red;
+            top: 100px;
+            left: 0px;
+        }
+
+    </style>
+    <script src="js/tool.js"></script>
+    <script>
+        window.onload = function () {
+            var btn = $("btn");
+            var ball = $("ball");
+            var target = 800;//去 800那个位置
+            var timer;
+             btn.onclick = function () {
+                clearInterval(timer);
+                timer=setInterval(function () {
+                    //速度 或者 步长   剩余路程除以一个固定的数 10
+                    var step = (target - ball.offsetLeft) / 10;
+                    //                if(step > 0){
+                    //                    step = Math.ceil(step);
+                    //                }else {
+                    //                    step = Math.floor(step)
+                    //                }
+                    step = step > 0 ? Math.ceil(step) : Math.floor(step);
+
+                    if (target == ball.offsetLeft){
+                        console.log("到达目的地");
+                        clearInterval(timer);
+                        return;
+                    }
+                    ball.style.left = ball.offsetLeft + step + "px";
+
+
+                },100)
+
+            }
+        }
+
+    </script>
+</head>
+<body>
+<input id="btn" type="button" value="1000">
+<div id="ball"></div>
+</body>
+</html>

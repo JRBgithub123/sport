@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #sharediv{
+            position: absolute;
+            width: 150px;
+            height: 100px;
+            background: blue;
+            top: 40%;
+            left: -150px;
+        }
+        #sharediv span{
+            position: absolute;
+            width: 20px;
+            left: 150px;
+            top: 15px;
+            background: chartreuse;
+        }
+
+    </style>
+    <script src="js/animate.js"></script>
+    <script>
+
+        window.onload = function (){
+            var shareDiv = document.getElementById("sharediv");
+            var span = document.getElementsByTagName("span")[0];
+            //闭包-》就延长局部变量的生命周期(作用域)
+            //闭包，就是函数，写在一个函数内部的函数
+            shareDiv.onmouseover = function (){
+                animate(this,0);
+
+            }
+            shareDiv.onmouseout = function (){
+                animate(this,-150);
+            }
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+<div id="sharediv">
+    <span>分享到</span>
+</body>
+</html>

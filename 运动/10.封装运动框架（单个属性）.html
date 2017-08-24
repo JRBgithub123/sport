@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        div{
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            background: red;
+            top: 500px;
+            left: 0px;
+        }
+
+    </style>
+    <script src="js/tool.js"></script>
+    <script>
+        window.onload = function () {
+            var btn = $("btn");
+            var ball = $("ball");
+            var target = 800;//去 1000那个位置
+            btn.onclick = function () {
+                //animate(ball,target);
+//                animate(ball,"width",500);
+//                animate(ball,"height",500);
+//                animate(ball,"left",500);
+                animate(ball,"top",100);
+
+                //{width:100,height:300}
+            }
+        }
+
+        //封装缓动动画  单个属性
+        function animate(element,arrt,target) {
+
+            //根据 left字符串 获得 ele style的 left属性
+
+            //结束上一次的定时器，防止 多次产生定时器
+            clearInterval(element.timer);
+            element.timer = setInterval(function () {
+                //速度 或者 步长   剩余路程除以一个固定的数 10
+
+                //获取arrt属性的值
+                var current = parseInt(getStyle(element,arrt));
+
+                var step = (target - current) / 15;
+                step = step > 0 ? Math.ceil(step) : Math.floor(step);
+                element.style[arrt] = current + step + "px";
+
+                if(target == current){//结束条件 结束定时器
+                    clearInterval(element.timer);
+                }
+            },10);
+        }
+
+
+
+
+    </script>
+</head>
+<body>
+<input id="btn" type="button" value="1000">
+<div id="ball"></div>
+</body>
+</html>
